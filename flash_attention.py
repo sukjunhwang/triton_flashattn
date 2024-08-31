@@ -79,13 +79,8 @@ def _attn_fwd_inner(
 
 @triton.autotune(
     configs=[
-        triton.Config({'BLOCK_M': 128, 'BLOCK_N': 128}, num_stages=1, num_warps=8),
-        triton.Config({'BLOCK_M': 128, 'BLOCK_N': 64}, num_stages=1, num_warps=8),
         triton.Config({'BLOCK_M': 128, 'BLOCK_N': 32}, num_stages=1, num_warps=8),
-
-        triton.Config({'BLOCK_M': 64, 'BLOCK_N': 64}, num_stages=1, num_warps=4),
         triton.Config({'BLOCK_M': 64, 'BLOCK_N': 32}, num_stages=1, num_warps=4),
-
         triton.Config({'BLOCK_M': 32, 'BLOCK_N': 32}, num_stages=1, num_warps=4),
     ],
     key=["M_CTX", "N_CTX", "HEAD_DIM_QK", "HEAD_DIM_V"],
@@ -326,13 +321,8 @@ def _attn_bwd_dkdv_inner(
 
 @triton.autotune(
     configs=[
-        triton.Config({'BLOCK_M': 128, 'BLOCK_N': 128}, num_stages=1, num_warps=8),
-        triton.Config({'BLOCK_M': 64, 'BLOCK_N': 128}, num_stages=1, num_warps=8),
         triton.Config({'BLOCK_M': 32, 'BLOCK_N': 128}, num_stages=1, num_warps=8),
-
-        triton.Config({'BLOCK_M': 64, 'BLOCK_N': 64}, num_stages=1, num_warps=4),
         triton.Config({'BLOCK_M': 32, 'BLOCK_N': 64}, num_stages=1, num_warps=4),
-
         triton.Config({'BLOCK_M': 32, 'BLOCK_N': 32}, num_stages=1, num_warps=4),
     ],
     key=["M_CTX", "N_CTX", "HEAD_DIM_QK", "HEAD_DIM_V"],
@@ -539,13 +529,8 @@ def _attn_bwd_dq_inner(
 
 @triton.autotune(
     configs=[
-        triton.Config({'BLOCK_M': 128, 'BLOCK_N': 128}, num_stages=1, num_warps=8),
-        triton.Config({'BLOCK_M': 128, 'BLOCK_N': 64}, num_stages=1, num_warps=8),
         triton.Config({'BLOCK_M': 128, 'BLOCK_N': 32}, num_stages=1, num_warps=8),
-
-        triton.Config({'BLOCK_M': 64, 'BLOCK_N': 64}, num_stages=1, num_warps=4),
         triton.Config({'BLOCK_M': 64, 'BLOCK_N': 32}, num_stages=1, num_warps=4),
-
         triton.Config({'BLOCK_M': 32, 'BLOCK_N': 32}, num_stages=1, num_warps=4),
     ],
     key=["M_CTX", "N_CTX", "HEAD_DIM_QK", "HEAD_DIM_V"],
